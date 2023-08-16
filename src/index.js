@@ -12,7 +12,15 @@ const createNode = (data) => {
 }
 
 const tree = (array) => {
-  const rootNode = buildTree(array)
+  let sortedArr = [];
+
+  array.forEach(element => {
+    if(!sortedArr.includes(element)) {
+      sortedArr.push(element);
+    }
+  });
+
+  const rootNode = buildTree(sortedArr)
 
   return rootNode;
 }
@@ -20,7 +28,7 @@ const tree = (array) => {
 const buildTree = (array, start = 0, end = array.length -1) => {
 
   if (start > end) return null;
-
+  
     const mid = Math.floor((start + end) / 2) ;
 
     const root = createNode(array[mid]);
@@ -45,6 +53,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 
-const newTree = tree([1,2,3,4,5,6,7,8,9,10]);
+const newTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 prettyPrint(newTree)
