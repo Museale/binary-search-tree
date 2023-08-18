@@ -45,27 +45,53 @@ const buildTree = (array, start = 0, end = array.length -1) => {
 const insertNode = (node, nodeToInsert) => {
   //Insert a node in the tree
   if (node === null) return;
-console.log(nodeToInsert.data, node.data)
-  // if value is less than root -- go to left subtree
-  // else go to right subtree
-  if (node !== null) {
+
     if(node.data < nodeToInsert.data) {
       insertNode(node.right, nodeToInsert)
-
       if(node.right === null) {
         node.right = nodeToInsert;
+
       }
     } else {
       insertNode(node.left, nodeToInsert)
-      console.log(node)
       if(node.left === null) {
-        node.left = nodeToInsert;
+        node.left = nodeToInsert
+        
       }
+ };
+};
+const deleteNode = (node, nodeToDelete) => {
+  //base case
+  if (node === null) return node;
+  //find lowest node val
+  const findMinimumVal = (node) => {
+    while (node.left) {
+      node = node.left;
     }
- 
+    return node;
+  }
+  //
+  if (nodeToDelete < node.data) {
+    node.left = deleteNode(node.left, nodeToDelete);
+  } else if (nodeToDelete > node.data) {
+    node.right = deleteNode(node.right, nodeToDelete);
+  } else {
+    if (node.left === null) {
+      return node.right;
+    } else if (node.right === null) {
+      return node.left;
+    }
+    
+    let temp = findMinimumVal(node.right);
+    node.data = temp.data;
+    node.right = deleteNode(node.right, temp.data);
   }
   
-}
+  return node;
+};
+
+
+
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
@@ -83,11 +109,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 const newTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 const toBeInsertedNode = createNode(30);
 const secondInsert = createNode(6);
+const thirdToInsert = createNode(24);
 
 prettyPrint(newTree)
 
 insertNode(newTree, toBeInsertedNode)
 insertNode(newTree, secondInsert)
-
+insertNode(newTree, thirdToInsert)
+deleteNode(newTree, 8)
 
 prettyPrint(newTree)
