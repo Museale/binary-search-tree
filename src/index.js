@@ -70,26 +70,67 @@ const deleteNode = (node, nodeToDelete) => {
     }
     return node;
   }
-  //
+  //recursively traverse tree
   if (nodeToDelete < node.data) {
     node.left = deleteNode(node.left, nodeToDelete);
   } else if (nodeToDelete > node.data) {
     node.right = deleteNode(node.right, nodeToDelete);
   } else {
+    //if there is nothing on the left return the right childnode else return left childnode
     if (node.left === null) {
       return node.right;
     } else if (node.right === null) {
       return node.left;
     }
-    
+    //set temp to minimum right child val
     let temp = findMinimumVal(node.right);
+    //set node.data to temp.data
     node.data = temp.data;
+    //recursively replace data on nodes
     node.right = deleteNode(node.right, temp.data);
   }
   
   return node;
 };
 
+const findNode = (node, nodeToBeFound) => {
+  if(node === null) return;
+  
+    if(nodeToBeFound === node.data) {
+      console.log('Yes, tree contains node: ', node);
+      return true;
+    }
+    let found = false;
+    if (nodeToBeFound > node.data) {
+      found = findNode(node.right, nodeToBeFound);
+    } else if (nodeToBeFound < node.data){
+      found = findNode(node.left, nodeToBeFound);
+    }
+    if(!found) {
+      console.log('Node is not found in tree.')
+    }
+    return found;
+};
+
+const levelOrder = (node) => {
+  if (node === null) return;
+
+  let queue = [];
+  queue.push(node);
+
+  while(queue.length > 0) {
+    let current = queue.shift();
+    console.log(current.data);
+
+    if(current.left !== null) {
+      queue.push(current.left);
+    }
+    if(current.right !== null) {
+      queue.push(current.right);
+    }
+  }
+  console.log(queue)
+}
 
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -111,11 +152,11 @@ const toBeInsertedNode = createNode(30);
 const secondInsert = createNode(6);
 const thirdToInsert = createNode(24);
 
-prettyPrint(newTree)
 
-insertNode(newTree, toBeInsertedNode)
-insertNode(newTree, secondInsert)
-insertNode(newTree, thirdToInsert)
-deleteNode(newTree, 8)
-
-prettyPrint(newTree)
+insertNode(newTree, toBeInsertedNode);
+insertNode(newTree, secondInsert);
+insertNode(newTree, thirdToInsert);
+deleteNode(newTree, 8);
+findNode(newTree, 3224);
+prettyPrint(newTree);
+levelOrder(newTree);
