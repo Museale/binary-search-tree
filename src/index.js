@@ -149,6 +149,34 @@ const inOrder = (node, fn = null, result = []) => {
   return result;
 }
 
+const postOrder = (node, fn = null, result = []) => {
+  const traverse = (node) => {
+    if (node === null) return;
+    traverse(node.right);
+    result.push(node.data);
+    traverse(node.left); 
+  }
+  traverse(node);
+
+  if(fn) {
+    result.forEach(fn);
+  }
+  console.log(result)
+  return result;
+}
+
+const preOrder = (node, fn = null, result = []) => {
+  const traverse = (node) => {
+    if (node === null) return;
+    result.push(node.data);
+    traverse(node.left);
+    traverse(node.right);
+  }
+  traverse(node);
+  console.log(result);
+  return result;
+}
+
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
@@ -177,3 +205,5 @@ findNode(newTree, 3224);
 prettyPrint(newTree);
 levelOrder(newTree);
 inOrder(newTree);
+postOrder(newTree)
+preOrder(newTree)
