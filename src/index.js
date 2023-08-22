@@ -117,8 +117,8 @@ const levelOrder = (node) => {
 
   let queue = [];
   queue.push(node);
-
   while(queue.length > 0) {
+
     let current = queue.shift();
     console.log(current.data);
 
@@ -130,8 +130,24 @@ const levelOrder = (node) => {
     }
   }
   console.log(queue)
+
 }
 
+const inOrder = (node, fn = null, result = []) => {
+  const traverse = (node) => {
+    if (node === null) return;
+    traverse(node.left);
+    result.push(node.data);
+    traverse(node.right); 
+  }
+  traverse(node);
+
+  if(fn) {
+    result.forEach(fn);
+  }
+  console.log(result)
+  return result;
+}
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -160,3 +176,4 @@ deleteNode(newTree, 8);
 findNode(newTree, 3224);
 prettyPrint(newTree);
 levelOrder(newTree);
+inOrder(newTree);
