@@ -112,11 +112,12 @@ const findNode = (node, nodeToBeFound) => {
     return found;
 };
 
-const levelOrder = (node) => {
+const levelOrder = (node, fn = null, result = []) => {
   if (node === null) return;
 
   let queue = [];
   queue.push(node);
+  result.push(node.data)
   while(queue.length > 0) {
 
     let current = queue.shift();
@@ -124,13 +125,23 @@ const levelOrder = (node) => {
 
     if(current.left !== null) {
       queue.push(current.left);
+      result.push(current.left.data)
     }
     if(current.right !== null) {
       queue.push(current.right);
+      result.push(current.right.data)
     }
   }
-  console.log(queue)
+  console.log(node)
+    if(fn) {
+      queue.forEach(item => {
+        fn(item.data)
+      })
+    }
+  ;
 
+  console.log('LevelOrder:', result)
+  return result;
 }
 
 const inOrder = (node, fn = null, result = []) => {
@@ -145,7 +156,7 @@ const inOrder = (node, fn = null, result = []) => {
   if(fn) {
     result.forEach(fn);
   }
-  console.log(result)
+  console.log('InOrder:', result)
   return result;
 }
 
@@ -161,7 +172,7 @@ const postOrder = (node, fn = null, result = []) => {
   if(fn) {
     result.forEach(fn);
   }
-  console.log(result)
+  console.log('PostOrder:', result)
   return result;
 }
 
@@ -173,9 +184,16 @@ const preOrder = (node, fn = null, result = []) => {
     traverse(node.right);
   }
   traverse(node);
-  console.log(result);
+  console.log('PreOrder:', result);
   return result;
 }
+
+const height = (node) => {
+  let height = 0;
+  if(node === null) return;
+  levelOrder(node);
+  
+};
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
@@ -207,3 +225,14 @@ levelOrder(newTree);
 inOrder(newTree);
 postOrder(newTree)
 preOrder(newTree)
+
+const customFunc = (node)=> {
+  node.data = 0;
+
+  console.log(node)
+
+  return node;
+};
+
+levelOrder(newTree, customFunc)
+  
