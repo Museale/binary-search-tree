@@ -278,12 +278,12 @@
 
 import { mergeSort } from './merge_sort';
 import { createNode } from './create_node';
+import { prettyPrint } from './pretty_print';
 
 //create a balanced binary search tree
 const BST = (array) => {
 
   const sortedArr = [...new Set(mergeSort(array))];
-  console.log(sortedArr);
 
   const buildTree = (array, start = 0, end = array.length -1) => {
     if (start > end) return null;
@@ -303,9 +303,12 @@ const BST = (array) => {
     if (node === null) {
       return createNode(nodeToInsert);
     };
+    //if value already exists abort
     if(nodeToInsert === node.data) {
       return node;
     }
+    //If lower or higher than root, 
+    //recurse through tree of lower or higher values depending
     if(node.data < nodeToInsert) {
       node.right = insertNode(nodeToInsert, node.right);
     } else {
@@ -317,39 +320,116 @@ const BST = (array) => {
   const deleteNode = (nodeToDelete, node = root) => {
     if (node === null) return node;
 
+    //find lowest value in tree
     const findMinVal = (node) => {
       while(node.left) {
         node = node.left;
       }
+      return node;
     }
+    //traverse tree (recursive)
+    if (nodeToDelete < node.data) {
+      node.left = deleteNode(nodeToDelete, node.left);
+    } 
+    else if (nodeToDelete > node.data) {
+      node.right = deleteNode(nodeToDelete, node.right);
+    } 
+    else {
+      if(node.left === null) {
+        return node.right;
+      }
+      if (node.right === null) {
+        return node.left;
+      }
+      //set temp to lowest val right child
+      let temp = findMinVal(node.right);
+      node.data = temp.data;
+      //recursively replace values on nodes
+      node.right = deleteNode(temp.data, node.right);
+    }
+    return node;
+  };
+
+  const findNode = (nodeToBeFound, node = root) => {
+    if(node === null){
+      console.log('Node not present in tree.');
+      return false;
+    }
+    let found = false;
+    //If values are equal return true
+    if(nodeToBeFound === node.data) {
+      console.log(`Node with value ${node.data} is present in tree: `, node);
+      return true;
+    };
+    //traverse recursively through tree
+    if(nodeToBeFound > node.data) {
+      found = findNode(nodeToBeFound, node.right);
+    } else if (nodeToBeFound < node.data) {
+      found = findNode(nodeToBeFound, node.left);
+    }
+    return found;
+  };
+
+  const levelOrder = (node = root, fn = null) => {
+    if (node === null) return result;
+
+    let queue = [];
+    let result = [];
+    queue.push(node);
+    result.push(node.data);
+
+    while(queue.length > 0) {
+      let current = queue.shift();
+
+      if(current.left !== null) {
+        queue.push(current.left);
+        result.push(current.left.data);
+      }
+      if(current.right !== null) {
+        queue.push(current.right);
+        result.push(current.right.data);
+      }
+    }
+    if (fn) {
+      queue.forEach(item => {
+        fn(item);
+      })
+    };
+    console.log('LevelOrder: ', result)
+    return result;
+  };
+
+  const inOrder = (node, fn = null, result = []) => {
 
   };
 
+  const preOrder = (node, fn = null, result = []) => {
+
+  };
+
+  const postOrder = (node, fn = null, result = []) => {
+
+  };
 
     return {
       root,
       buildTree,
       insertNode,
-      deleteNode
+      deleteNode,
+      findNode,
+      levelOrder,
+      inOrder,
+      preOrder,
+      postOrder
     }
 
-};
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
 };
 
 
 const tree = BST([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 tree.insertNode(2)
+tree.deleteNode(6345)
+tree.findNode(9)
+tree.levelOrder()
 prettyPrint(tree.root);
