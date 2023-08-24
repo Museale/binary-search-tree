@@ -188,11 +188,28 @@ const preOrder = (node, fn = null, result = []) => {
   return result;
 }
 
-const height = (node) => {
+const determineHeight = (node) => {
+
+  if(node === null) return 0;
+  //height is defined by the number of edges in the longest path from a given node to a leaf node
+  //traverse the tree 
+  // determine height of left subtree and right subtree
+  // determine which is higher
+  // return height
+
+  let leftSubTreeHeight = determineHeight(node.left);
+  let rightSubTreeHeight = determineHeight(node.right);
   let height = 0;
-  if(node === null) return;
-  levelOrder(node);
-  
+
+  if (leftSubTreeHeight > rightSubTreeHeight) {
+    height = leftSubTreeHeight + 1; 
+  }
+  else {
+    height = rightSubTreeHeight + 1;
+  }
+  console.log(height)
+  return height;
+ 
 };
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -213,11 +230,15 @@ const newTree = tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 const toBeInsertedNode = createNode(30);
 const secondInsert = createNode(6);
 const thirdToInsert = createNode(24);
+const fourthToInsert = createNode(20);
+const fifthToInsert = createNode(2334);
 
 
 insertNode(newTree, toBeInsertedNode);
 insertNode(newTree, secondInsert);
 insertNode(newTree, thirdToInsert);
+insertNode(newTree, fourthToInsert)
+insertNode(newTree, fifthToInsert)
 deleteNode(newTree, 8);
 findNode(newTree, 3224);
 prettyPrint(newTree);
@@ -236,3 +257,4 @@ const customFunc = (node)=> {
 
 levelOrder(newTree, customFunc)
   
+determineHeight(newTree)
