@@ -1,7 +1,7 @@
 // console.log('Hi, I am a tree.')
 
 // //Build a node class/factory
- 
+
 // const createNode = (data) => {
 //     const node = {
 //         data: data,
@@ -30,7 +30,7 @@
 // const buildTree = (array, start = 0, end = array.length -1) => {
 
 //   if (start > end) return null;
-  
+
 //     const mid = Math.floor((start + end) / 2) ;
 
 //     const root = createNode(array[mid]);
@@ -55,7 +55,7 @@
 //       insertNode(node.left, nodeToInsert)
 //       if(node.left === null) {
 //         node.left = nodeToInsert
-        
+
 //       }
 //  };
 // };
@@ -88,13 +88,13 @@
 //     //recursively replace data on nodes
 //     node.right = deleteNode(node.right, temp.data);
 //   }
-  
+
 //   return node;
 // };
 
 // const findNode = (node, nodeToBeFound) => {
 //   if(node === null) return;
-  
+
 //     if(nodeToBeFound === node.data) {
 //       console.log('Yes, tree contains node: ', node);
 //       return true;
@@ -146,7 +146,7 @@
 //     if (node === null) return;
 //     traverse(node.left);
 //     result.push(node.data);
-//     traverse(node.right); 
+//     traverse(node.right);
 //   }
 //   traverse(node);
 
@@ -162,7 +162,7 @@
 //     if (node === null) return;
 //     traverse(node.right);
 //     result.push(node.data);
-//     traverse(node.left); 
+//     traverse(node.left);
 //   }
 //   traverse(node);
 
@@ -189,7 +189,7 @@
 
 //   if(node === null) return -1;
 //   //height is defined by the number of edges in the longest path from a given node to a leaf node
-//   //traverse the tree 
+//   //traverse the tree
 //   // determine height of left subtree and right subtree
 //   // determine which is higher
 //   // return height
@@ -199,21 +199,21 @@
 //   let height = 0;
 
 //   if (leftSubTreeHeight > rightSubTreeHeight) {
-//     height = leftSubTreeHeight+1; 
+//     height = leftSubTreeHeight+1;
 //   }
 //   else {
 //     height = rightSubTreeHeight+1;
 //   }
 
 //   return height;
- 
+
 // };
 
 // const depth = (node,  fn = null) => {
 //   const root = node;
 
 //   if(node === null) return 0;
-  
+
 //   return depthRecursion(node, root);
 
 //   function depthRecursion(node, current) {
@@ -249,7 +249,6 @@
 //   }
 // };
 
-
 // const newTree = tree([8,4,67,1,5,9,324,3,7,23,6345]);
 // const toBeInsertedNode = createNode(30);
 // const secondInsert = createNode(6);
@@ -257,35 +256,32 @@
 // const fourthToInsert = createNode(20);
 // const fifthToInsert = createNode(2334);
 
-
 // insertNode(newTree, toBeInsertedNode);
 // insertNode(newTree, secondInsert);
 // insertNode(newTree, thirdToInsert);
 // findNode(newTree, 3224);
-// levelOrder(newTree); 
+// levelOrder(newTree);
 // inOrder(newTree);
 // postOrder(newTree)
 // preOrder(newTree)
 
-
 // levelOrder(newTree)
-  
+
 // determineHeight(newTree)
 
 // depth(newTree)
 
 // prettyPrint(newTree);
 
-import { mergeSort } from './merge_sort';
-import { createNode } from './create_node';
-import { prettyPrint } from './pretty_print';
+import { mergeSort } from "./merge_sort";
+import { createNode } from "./create_node";
+import { prettyPrint } from "./pretty_print";
 
 //create a balanced binary search tree
 const BST = (array) => {
-
   const sortedArr = [...new Set(mergeSort(array))];
 
-  const buildTree = (array, start = 0, end = array.length -1) => {
+  const buildTree = (array, start = 0, end = array.length - 1) => {
     if (start > end) return null;
 
     const mid = Math.floor((start + end) / 2);
@@ -295,21 +291,21 @@ const BST = (array) => {
     root.right = buildTree(array, mid + 1, end);
 
     return root;
-  }
+  };
 
   const root = buildTree(sortedArr);
 
   const insertNode = (nodeToInsert, node = root) => {
     if (node === null) {
       return createNode(nodeToInsert);
-    };
+    }
     //if value already exists abort
-    if(nodeToInsert === node.data) {
+    if (nodeToInsert === node.data) {
       return node;
     }
-    //If lower or higher than root, 
+    //If lower or higher than root,
     //recurse through tree of lower or higher values depending
-    if(node.data < nodeToInsert) {
+    if (node.data < nodeToInsert) {
       node.right = insertNode(nodeToInsert, node.right);
     } else {
       node.left = insertNode(nodeToInsert, node.left);
@@ -322,20 +318,18 @@ const BST = (array) => {
 
     //find lowest value in tree
     const findMinVal = (node) => {
-      while(node.left) {
+      while (node.left) {
         node = node.left;
       }
       return node;
-    }
+    };
     //traverse tree (recursive)
     if (nodeToDelete < node.data) {
       node.left = deleteNode(nodeToDelete, node.left);
-    } 
-    else if (nodeToDelete > node.data) {
+    } else if (nodeToDelete > node.data) {
       node.right = deleteNode(nodeToDelete, node.right);
-    } 
-    else {
-      if(node.left === null) {
+    } else {
+      if (node.left === null) {
         return node.right;
       }
       if (node.right === null) {
@@ -351,18 +345,18 @@ const BST = (array) => {
   };
 
   const findNode = (nodeToBeFound, node = root) => {
-    if(node === null){
-      console.log('Node not present in tree.');
+    if (node === null) {
+      console.log("Node not present in tree.");
       return false;
     }
     let found = false;
     //If values are equal return true
-    if(nodeToBeFound === node.data) {
+    if (nodeToBeFound === node.data) {
       console.log(`Node with value ${node.data} is present in tree: `, node);
       return true;
-    };
+    }
     //traverse recursively through tree
-    if(nodeToBeFound > node.data) {
+    if (nodeToBeFound > node.data) {
       found = findNode(nodeToBeFound, node.right);
     } else if (nodeToBeFound < node.data) {
       found = findNode(nodeToBeFound, node.left);
@@ -375,61 +369,90 @@ const BST = (array) => {
 
     let queue = [];
     let result = [];
+
     queue.push(node);
     result.push(node.data);
 
-    while(queue.length > 0) {
+    while (queue.length > 0) {
       let current = queue.shift();
 
-      if(current.left !== null) {
+      if (current.left !== null) {
         queue.push(current.left);
         result.push(current.left.data);
       }
-      if(current.right !== null) {
+
+      if (current.right !== null) {
         queue.push(current.right);
         result.push(current.right.data);
       }
     }
+
     if (fn) {
-      queue.forEach(item => {
+      queue.forEach((item) => {
         fn(item);
-      })
-    };
-    console.log('LevelOrder: ', result)
+      });
+    }
+
+    console.log("LevelOrder: ", result);
     return result;
   };
 
-  const inOrder = (node, fn = null, result = []) => {
 
-  };
+  const inOrder = (node = root, fn = null, result = []) => {
 
-  const preOrder = (node, fn = null, result = []) => {
-
-  };
-
-  const postOrder = (node, fn = null, result = []) => {
-
-  };
-
-    return {
-      root,
-      buildTree,
-      insertNode,
-      deleteNode,
-      findNode,
-      levelOrder,
-      inOrder,
-      preOrder,
-      postOrder
+    const traverse = (node) => {
+      if (node === null) return;
+      traverse(node.left);
+      result.push(node.data);
+      traverse(node.right);
+    };
+  
+    traverse(node);
+    if(fn) {
+      result.forEach(fn);
     }
+    console.log('InOrder: ', result);
+    return result;
+  };
 
+  const preOrder = (node = root, fn = null, result = []) => {
+    const traverse = (node) => {
+      if (node === null) return;
+      result.push(node.data)
+      traverse(node.left);
+      traverse(node.right);
+    }
+    traverse(node);
+    console.log('PreOrder: ', result);
+    if(fn) {
+      result.forEach(fn);
+    };
+    return result;
+  };
+
+  const postOrder = (node = root, fn = null, result = []) => {
+    
+  };
+
+  return {
+    root,
+    buildTree,
+    insertNode,
+    deleteNode,
+    findNode,
+    levelOrder,
+    inOrder,
+    preOrder,
+    postOrder,
+  };
 };
-
 
 const tree = BST([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-tree.insertNode(2)
-tree.deleteNode(6345)
-tree.findNode(9)
-tree.levelOrder()
+// tree.insertNode(2);
+// tree.deleteNode(6345);
+tree.findNode(9);
+tree.levelOrder();
+tree.inOrder();
+tree.preOrder();
 prettyPrint(tree.root);
