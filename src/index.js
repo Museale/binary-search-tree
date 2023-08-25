@@ -451,7 +451,7 @@ export const BST = (array) => {
     let height = 0;
     let leftSubTreeHeight = heightOfTree(node.left);
     let rightSubTreeHeight = heightOfTree(node.right);
-    
+
     if(leftSubTreeHeight > rightSubTreeHeight) {
       height = leftSubTreeHeight + 1;
     } else {
@@ -460,7 +460,23 @@ export const BST = (array) => {
     return height;
   };
 
-  const depth = () => {};
+  const depth = (targetNode, node = root, fn = null) => {
+    if (node === null) return -1;
+
+    if (node.data === targetNode) return 0;
+
+    let leftDepth = depth(targetNode, node.left);
+    let rightDepth = depth(targetNode, node.right);
+
+      if(leftDepth > -1){
+        return leftDepth + 1;
+      } else if (rightDepth > -1) {
+        return rightDepth + 1;
+      } else { 
+        return -1;
+      }
+
+  };
 
   const isBalanced = () => {};
 
@@ -485,12 +501,13 @@ export const BST = (array) => {
 
 const tree = BST([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-// tree.insertNode(2);
-// tree.deleteNode(6345);
+tree.insertNode(2);
+tree.deleteNode(6345);
 tree.findNode(9);
 tree.levelOrder();
 tree.inOrder();
 tree.preOrder();
 tree.postOrder();
 console.log('Height: ', tree.heightOfTree());
+console.log('Depth: ', tree.depth(1))
 prettyPrint(tree.root);
