@@ -19,7 +19,7 @@ export const BST = (array) => {
     return root;
   };
 
-  const root = buildTree(sortedArr);
+  let root = buildTree(sortedArr);
 
   const insertNode = (nodeToInsert, node = root) => {
     if (node === null) {
@@ -171,8 +171,8 @@ export const BST = (array) => {
   };
 
   const heightOfTree = (node = root) => {
-    if (node === null || findNode === false) return -1;
-    return Math.max(heightOfTree(node.left), heightOfTree(node.right)) +1;
+    if (node === null) return - 1;
+    return Math.max(heightOfTree(node.left), heightOfTree(node.right)) + 1;
   };
 
   const depth = (targetNode, node = root, fn = null) => {
@@ -195,16 +195,20 @@ export const BST = (array) => {
 
   const isBalanced = (node = root) => {
       if(node === null) return true;
-
-      if(Math.abs(heightOfTree(node.left) - heightOfTree(node.right) <= 1 &&
-      isBalanced(node.left) === true &&
-      isBalanced(node.right) === true)) {
-        return true
+      
+      const left = heightOfTree(node.left);
+      const right = heightOfTree(node.right);
+      const difference = Math.abs(left - right);
+      
+      if(difference <= 1 && isBalanced(node.left) && isBalanced(node.right)) {
+        return true;
       }
-      return false
+     return false;
   };
 
-  const reBalance = () => {};
+  const reBalance = (node = root) => {
+
+  };
 
   return {
     root,
@@ -230,9 +234,11 @@ tree.insertNode(300)
 tree.insertNode(559)
 tree.insertNode(12930)
 tree.insertNode(0)
+tree.insertNode(-3234)
+tree.insertNode(6)
 tree.insertNode(129423)
 tree.insertNode(121239148)
-// tree.deleteNode(6345);
+tree.deleteNode(6345);
 tree.findNode(9);
 tree.levelOrder();
 tree.inOrder();
@@ -241,4 +247,5 @@ tree.postOrder();
 console.log('Height: ', tree.heightOfTree());
 console.log('Depth: ', tree.depth(1))
 console.log('IsBalanced: ', tree.isBalanced())
+tree.reBalance();
 prettyPrint(tree.root);
