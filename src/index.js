@@ -276,9 +276,10 @@
 import { mergeSort } from "./merge_sort";
 import { createNode } from "./create_node";
 import { prettyPrint } from "./pretty_print";
+import { driver } from './driver';
 
 //create a balanced binary search tree
-const BST = (array) => {
+export const BST = (array) => {
   const sortedArr = [...new Set(mergeSort(array))];
 
   const buildTree = (array, start = 0, end = array.length - 1) => {
@@ -397,55 +398,73 @@ const BST = (array) => {
     return result;
   };
 
-
   const inOrder = (node = root, fn = null, result = []) => {
-
     const traverse = (node) => {
       if (node === null) return;
       traverse(node.left);
       result.push(node.data);
       traverse(node.right);
     };
-  
+
     traverse(node);
-    if(fn) {
+    if (fn) {
       result.forEach(fn);
     }
-    console.log('InOrder: ', result);
+    console.log("InOrder: ", result);
     return result;
   };
 
   const preOrder = (node = root, fn = null, result = []) => {
     const traverse = (node) => {
       if (node === null) return;
-      result.push(node.data)
+      result.push(node.data);
       traverse(node.left);
       traverse(node.right);
-    }
-    traverse(node);
-    console.log('PreOrder: ', result);
-    if(fn) {
-      result.forEach(fn);
     };
+    traverse(node);
+    console.log("PreOrder: ", result);
+    if (fn) {
+      result.forEach(fn);
+    }
     return result;
   };
 
   const postOrder = (node = root, fn = null, result = []) => {
     const traverse = (node) => {
-      if(node === null) return;
+      if (node === null) return;
       traverse(node.left);
       traverse(node.right);
       result.push(node.data);
+    };
+    traverse(node);
+
+    if (fn) {
+      result.forEach(fn);
     }
-      traverse(node);
-
-      if(fn) {
-        result.forEach(fn);
-      }
-      console.log('PostOrder: ', result)
-      return result;
-
+    console.log("PostOrder: ", result);
+    return result;
   };
+
+  const heightOfTree = (node = root) => {
+    if (node === null) return 0;
+
+    let height = 0;
+    let leftSubTreeHeight = heightOfTree(node.left);
+    let rightSubTreeHeight = heightOfTree(node.right);
+    
+    if(leftSubTreeHeight > rightSubTreeHeight) {
+      height = leftSubTreeHeight + 1;
+    } else {
+      height = rightSubTreeHeight + 1;
+    }
+    return height;
+  };
+
+  const depth = () => {};
+
+  const isBalanced = () => {};
+
+  const reBalance = () => {};
 
   return {
     root,
@@ -457,6 +476,10 @@ const BST = (array) => {
     inOrder,
     preOrder,
     postOrder,
+    heightOfTree,
+    depth,
+    isBalanced,
+    reBalance
   };
 };
 
@@ -469,4 +492,5 @@ tree.levelOrder();
 tree.inOrder();
 tree.preOrder();
 tree.postOrder();
+console.log('Height: ', tree.heightOfTree());
 prettyPrint(tree.root);
