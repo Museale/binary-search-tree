@@ -431,7 +431,20 @@ const BST = (array) => {
   };
 
   const postOrder = (node = root, fn = null, result = []) => {
-    
+    const traverse = (node) => {
+      if(node === null) return;
+      traverse(node.left);
+      traverse(node.right);
+      result.push(node.data);
+    }
+      traverse(node);
+
+      if(fn) {
+        result.forEach(fn);
+      }
+      console.log('PostOrder: ', result)
+      return result;
+
   };
 
   return {
@@ -455,4 +468,5 @@ tree.findNode(9);
 tree.levelOrder();
 tree.inOrder();
 tree.preOrder();
+tree.postOrder();
 prettyPrint(tree.root);
