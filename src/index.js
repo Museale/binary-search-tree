@@ -206,8 +206,19 @@ export const BST = (array) => {
      return false;
   };
 
-  const reBalance = (node = root) => {
 
+  const reBalance = (node = root, result = []) => {
+    const traverse = (node) => {
+      if (node === null) return;
+      traverse(node.left);
+      result.push(node.data);
+      traverse(node.right);
+    };  
+
+    traverse(node);
+
+  return root = buildTree(result);
+ 
   };
 
   return {
